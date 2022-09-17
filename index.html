@@ -6,8 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Challenge - DOM</title>
   </head>
+  <style>
+    body {
+      background-color: #6a5acd;
+    }
+    #container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #box {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      background-color: white;
+      margin-top: 1rem;
+      min-height: 500px;
+      width: 50%;
+    }
+    #todo-title {
+      background-color: aqua;
+    }
+    #todo-output-container {
+      width: 100%;
+    }
+  </style>
   <body>
     <div id="app">
+      <div id="container">
+        <div id="box">
+          <div>
+            <h1 id="todo-title">Todo List</h1>
+          </div>
+          <p id="todo-subtitle">~ Today I need to ~</p>
+          <form>
+            <input type="text" id="todo-input" />
+            <button type="button" id="todo-submit">Submit</button>
+          </form>
+          <div id="todo-output-container">
+            <ul id="todo-output"></ul>
+          </div>
+
+          <h2 id="temp"></h2>
+        </div>
+      </div>
       <!-- TODO: Buatlah sebuah header dengan id todo-title -->
       <!-- TODO: Buatlah sebuah subtitle dengan id todo-subtitle -->
 
@@ -21,21 +63,45 @@
 
     <!-- ! Untuk tantangan ini, script jangan diubah ke external js yah ! -->
     <script>
+      document.addEventListener("submit", (e) => {
+        e.preventDefault();
+      });
+
       // TODO: Deklarasi variable sesuai dengan kebutuhan di sini
-      let button;
+      let button = document.querySelector("#todo-submit");
       let input;
-      let output;
+      let output = [];
 
       // TODO: Buatlah sebuah fungsi dengan nama fnClickHandler
       // Fungsi yang digunakan untuk menambahkan tulisan
       // Jangan ubah cara deklarasi fungsinya, cukup isi saja
-      function fnClickHandler(toDoItem) {}
+      function fnClickHandler(toDoItem) {
+        document.querySelector("#todo-input").value = "";
+
+        output.push(toDoItem);
+        let html = "";
+
+        output.forEach((value) => {
+          html += `<li>${value}</li>`;
+        });
+
+        document.querySelector("#todo-output").innerHTML = html;
+      }
 
       // TODO: register event onclick / addEventListener untuk button
       // akan menjalankan fungsi fnClickHandler
-      
+      document
+        .querySelector("#todo-submit")
+        .addEventListener("click", (e) => fnClickHandler(document.querySelector("#todo-input").value));
+
       // TODO: register event onkeypress / addEventListener untuk input
       // sehingga saat di input ditekan enter akan menjalankan fungsi fnClickHandler juga
+      document
+        .querySelector("#todo-input")
+        .addEventListener("keypress", (e) => {
+          if (e.code == "Enter" || e.keyCode == '13' || e.charCode == '13')
+            fnClickHandler(document.querySelector("#todo-input").value);
+        });
     </script>
   </body>
 </html>
